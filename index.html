@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenGuard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #00ff9d; font-size: 2.5rem; margin-bottom: 10px; }
+        .tag { background: #00ff9d; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #111; }
+        th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #222; }
+        th { background: #1a1a1a; color: #00ff9d; }
+        .malicious { background: #ff0000; color: white; font-weight: 600; }
+        .clean { background: #00ff9d; color: #000; font-weight: 600; }
+        .footer { margin-top: 40px; font-size: 0.9rem; opacity: 0.7; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 OpenGuard</h1>
+        <p style="font-size:1.2rem; opacity:0.9;">Malicious PR & Dependency-Update Detector for Open Source</p>
+        <span class="tag">GitHub App • Runs every 15 min</span>
+
+        <h2 style="margin-top:40px;">📁 Tracked Repositories</h2>
+        <table id="reposTable">
+            <thead><tr><th>Repository</th><th>Last Scanned</th></tr></thead>
+            <tbody></tbody>
+        </table>
+
+        <h2 style="margin-top:40px;">🚨 Recent Malicious PRs</h2>
+        <table id="prsTable">
+            <thead><tr><th>PR #</th><th>Title</th><th>Status</th><th>Score</th><th>Time</th><th>Explanation</th></tr></thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="footer">
+            Built for Hackathon • Powered by GitHub App + Claude 3.5
+        </div>
+    </div>
+
+    <script>
+        // Fetch data from GitHub Actions output (or static for now)
+        fetch('/index.html').then(r => r.text()).then(html => {
+            document.body.innerHTML = html;
+        });
+    </script>
+</body>
+</html>
