@@ -1,0 +1,29 @@
+name: OpenGuard - Detect Malicious PRs & Dependency Updates
+
+on:
+  schedule:                    # Run every 15 minutes
+    - cron: '*/15 * * * *'
+  workflow_dispatch:           # Manual trigger from GitHub UI
+
+jobs:
+  detect-malicious:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install PyGithub requests beautifulsoup4 python-dotenv anthropic
+
+      - name: Detect Malicious PRs
+        run: python detect_malicious.py
+        env:
+          GITHUB_APP_ID: ${{ secrets.GITHUB_APP_ID }}
+          GITHUB_PRIVATE_KEY: ${{ secrets.GITHUB_PRIVATE_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # ← Add this secret in GitHub
